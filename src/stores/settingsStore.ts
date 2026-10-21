@@ -931,6 +931,8 @@ export interface SettingsState
   meetingSileroEnabled: boolean;
   meetingAecEnabled: boolean;
   meetingScreenKeyframesEnabled: boolean;
+  meetingFinishedWebhookUrl: string;
+  meetingFinishedCommand: string;
   whisperVadThreshold: number;
   whisperVadMinSpeechDurationMs: number;
   whisperVadMinSilenceDurationMs: number;
@@ -1260,6 +1262,8 @@ export interface SettingsState
   setMeetingSileroEnabled: (value: boolean) => void;
   setMeetingAecEnabled: (value: boolean) => void;
   setMeetingScreenKeyframesEnabled: (value: boolean) => void;
+  setMeetingFinishedWebhookUrl: (value: string) => void;
+  setMeetingFinishedCommand: (value: string) => void;
   setWhisperVadThreshold: (value: number) => void;
   setWhisperVadMinSpeechDurationMs: (value: number) => void;
   setWhisperVadMinSilenceDurationMs: (value: number) => void;
@@ -1712,6 +1716,8 @@ export const useSettingsStore = create<SettingsState>()((set, get) => ({
   // Saves a screenshot of the meeting whenever the Teams window or the shared
   // screen changes (macOS helper `macos-screen-keyframes`).
   meetingScreenKeyframesEnabled: readBoolean("meetingScreenKeyframesEnabled", true),
+  meetingFinishedWebhookUrl: readString("meetingFinishedWebhookUrl", ""),
+  meetingFinishedCommand: readString("meetingFinishedCommand", ""),
   whisperVadThreshold: clampVadValue("threshold", readString("whisperVadThreshold", "0.5")),
   whisperVadMinSpeechDurationMs: clampVadValue(
     "minSpeechDurationMs",
@@ -2535,6 +2541,8 @@ export const useSettingsStore = create<SettingsState>()((set, get) => ({
   },
   setMeetingAecEnabled: createBooleanSetter("meetingAecEnabled"),
   setMeetingScreenKeyframesEnabled: createBooleanSetter("meetingScreenKeyframesEnabled"),
+  setMeetingFinishedWebhookUrl: createStringSetter("meetingFinishedWebhookUrl"),
+  setMeetingFinishedCommand: createStringSetter("meetingFinishedCommand"),
   setWhisperVadThreshold: (value: number) => {
     const next = clampVadValue("threshold", value);
     if (isBrowser) localStorage.setItem("whisperVadThreshold", String(next));

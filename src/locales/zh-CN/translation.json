@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "识别并标记发言者",
         "description": "关闭后，转写会显示\"你\"和\"其他人\""
+      },
+      "screenKeyframes": {
+        "title": "会议截图",
+        "description": "每当 Teams 窗口（或你演示时的屏幕）发生变化时保存一张截图。需要“屏幕录制”权限。"
+      },
+      "finishedHook": {
+        "title": "会议结束时",
+        "description": "将 meeting.json 和 meeting.md（转写、发言者、时间和截图）写入会议文件夹，然后发送给你自己的工具。两项都留空即可关闭。",
+        "urlLabel": "发送到本地 URL",
+        "urlDescription": "将 meeting.json POST 到此地址。",
+        "commandLabel": "运行命令",
+        "commandDescription": "在你的登录 shell 中运行。$OPENWHISPR_MEETING_JSON、$OPENWHISPR_MEETING_MD 和 $OPENWHISPR_MEETING_DIR 指向导出内容。"
       }
     }
   },
@@ -3471,6 +3483,20 @@
       "applied": "助手已更新“{{title}}”",
       "changed": "助手编辑后，这篇笔记又发生了更改，无法撤销。",
       "failed": "无法撤销编辑，请重试。"
+    },
+    "screenshots": {
+      "title": "截图（{{count}}）",
+      "viewerTitle": "{{time}} 的截图（第 {{index}} 张，共 {{count}} 张）",
+      "alt": "{{time}} 的屏幕",
+      "previous": "上一张",
+      "next": "下一张",
+      "openFolder": "打开文件夹",
+      "send": {
+        "idle": "发送给智能体",
+        "sending": "正在发送…",
+        "sent": "已发送",
+        "failed": "发送失败"
+      }
     }
   },
   "dictionary": {

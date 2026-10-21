@@ -2604,6 +2604,20 @@
       "applied": "حدّث المساعد «{{title}}»",
       "changed": "تغيّرت هذه الملاحظة بعد تعديل المساعد. لم يعد التراجع متاحًا.",
       "failed": "تعذّر التراجع عن التعديل. حاول مرة أخرى."
+    },
+    "screenshots": {
+      "title": "لقطات الشاشة ({{count}})",
+      "viewerTitle": "لقطة عند {{time}} ({{index}} من {{count}})",
+      "alt": "الشاشة عند {{time}}",
+      "previous": "السابق",
+      "next": "التالي",
+      "openFolder": "فتح المجلد",
+      "send": {
+        "idle": "إرسال إلى الوكيل",
+        "sending": "جارٍ الإرسال…",
+        "sent": "تم الإرسال",
+        "failed": "تعذّر الإرسال"
+      }
     }
   },
   "onboarding": {
@@ -4148,6 +4162,18 @@
       "speakerDetection": {
         "title": "تحديد وتسمية المتحدثين",
         "description": "عند الإيقاف، تعرض النصوص المفرَّغة المتحدثين كـ \"أنت\" و\"آخرون\""
+      },
+      "screenKeyframes": {
+        "title": "لقطات الشاشة أثناء الاجتماعات",
+        "description": "يحفظ لقطة لنافذة Teams، أو لشاشتك أثناء العرض، كلما تغيّرت. يتطلب إذن تسجيل الشاشة."
+      },
+      "finishedHook": {
+        "title": "عند انتهاء الاجتماع",
+        "description": "يكتب meeting.json وmeeting.md (النص والمتحدثون والأوقات واللقطات) في مجلد الاجتماع، ثم يرسلهما إلى أدواتك. اترك الحقلين فارغين لإيقاف ذلك.",
+        "urlLabel": "إرسال إلى عنوان URL محلي",
+        "urlDescription": "يرسل meeting.json إلى هذا العنوان.",
+        "commandLabel": "تشغيل أمر",
+        "commandDescription": "يعمل في صدفة تسجيل الدخول. تشير $OPENWHISPR_MEETING_JSON و$OPENWHISPR_MEETING_MD و$OPENWHISPR_MEETING_DIR إلى التصدير."
       }
     }
   },

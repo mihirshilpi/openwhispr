@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Cloud, Key, Cpu, Network } from "../icons";
 import { useSettingsStore } from "../../stores/settingsStore";
@@ -6,6 +6,7 @@ import { usePolicyModeOptions, usePolicySnapshot } from "../../hooks/usePolicy";
 import { isModeAllowedByPolicy } from "../../stores/policyRules";
 import { requestSignIn } from "../../utils/requestSignIn";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { InferenceModeSelector, SettingsRow } from "../ui/SettingsSection";
 import type { InferenceModeOption } from "../ui/SettingsSection";
 import { Toggle } from "../ui/toggle";
@@ -44,6 +45,94 @@ function MeetingEchoCancellationRow() {
     >
       <Toggle checked={meetingAecEnabled} onChange={setMeetingAecEnabled} />
     </SettingsRow>
+  );
+}
+
+function MeetingScreenKeyframesRow() {
+  const { t } = useTranslation();
+  const enabled = useSettingsStore((s) => s.meetingScreenKeyframesEnabled);
+  const setEnabled = useSettingsStore((s) => s.setMeetingScreenKeyframesEnabled);
+
+  return (
+    <SettingsRow
+      label={t("settings.meeting.screenKeyframes.title")}
+      description={t("settings.meeting.screenKeyframes.description")}
+    >
+      <Toggle checked={enabled} onChange={setEnabled} />
+    </SettingsRow>
+  );
+}
+
+// Text field that saves when it loses focus, so a half-typed URL or command
+// never fires the hook.
+function HookField({
+  label,
+  description,
+  placeholder,
+  value,
+  onSave,
+}: {
+  label: string;
+  description: string;
+  placeholder: string;
+  value: string;
+  onSave: (value: string) => void;
+}) {
+  const [draft, setDraft] = useState(value);
+  useEffect(() => setDraft(value), [value]);
+
+  return (
+    <div className="space-y-1.5">
+      <p className="text-xs font-medium text-foreground">{label}</p>
+      <Input
+        dir="ltr"
+        spellCheck={false}
+        placeholder={placeholder}
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={() => {
+          const trimmed = draft.trim();
+          if (trimmed !== value) onSave(trimmed);
+        }}
+        className="font-mono text-xs"
+      />
+      <p className="text-xs text-muted-foreground/70">{description}</p>
+    </div>
+  );
+}
+
+function MeetingFinishedHookRows() {
+  const { t } = useTranslation();
+  const url = useSettingsStore((s) => s.meetingFinishedWebhookUrl);
+  const setUrl = useSettingsStore((s) => s.setMeetingFinishedWebhookUrl);
+  const command = useSettingsStore((s) => s.meetingFinishedCommand);
+  const setCommand = useSettingsStore((s) => s.setMeetingFinishedCommand);
+
+  return (
+    <div className="space-y-3 border-t border-border/70 pt-4">
+      <div>
+        <p className="text-sm font-medium text-foreground">
+          {t("settings.meeting.finishedHook.title")}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {t("settings.meeting.finishedHook.description")}
+        </p>
+      </div>
+      <HookField
+        label={t("settings.meeting.finishedHook.urlLabel")}
+        description={t("settings.meeting.finishedHook.urlDescription")}
+        placeholder="http://localhost:8787/meeting"
+        value={url}
+        onSave={setUrl}
+      />
+      <HookField
+        label={t("settings.meeting.finishedHook.commandLabel")}
+        description={t("settings.meeting.finishedHook.commandDescription")}
+        placeholder={'my-agent ingest "$OPENWHISPR_MEETING_JSON"'}
+        value={command}
+        onSave={setCommand}
+      />
+    </div>
   );
 }
 
@@ -204,6 +293,8 @@ export function MeetingTranscriptionPanel() {
       {effectiveTranscriptionMode === "local" && renderTranscriptionPicker("local")}
       <MeetingSpeakerDetectionRow />
       <MeetingEchoCancellationRow />
+      <MeetingScreenKeyframesRow />
+      <MeetingFinishedHookRows />
     </div>
   );
 }

@@ -936,6 +936,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
   meetingTranscriptionStop: (expectedSessionId) =>
     ipcRenderer.invoke("meeting-transcription-stop", expectedSessionId),
   meetingTranscriptionCancel: () => ipcRenderer.invoke("meeting-transcription-cancel"),
+  runMeetingFinishedHook: (request) => ipcRenderer.invoke("meeting-finished-hook-run", request),
+  runMeetingFinishedHookNow: (request) =>
+    ipcRenderer.invoke("meeting-finished-hook-run-now", request),
+  listMeetingFrames: (noteId) => ipcRenderer.invoke("meeting-frames-list", noteId),
+  readMeetingFrame: (noteId, file) => ipcRenderer.invoke("meeting-frame-read", noteId, file),
+  openMeetingFramesFolder: (noteId) => ipcRenderer.invoke("meeting-frames-open-folder", noteId),
   onMeetingTranscriptionSegment: registerListener(
     "meeting-transcription-segment",
     (callback) => (_event, data) => callback(data)

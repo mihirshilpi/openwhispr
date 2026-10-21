@@ -44,6 +44,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { RichTextEditor } from "../ui/RichTextEditor";
 import type { Editor } from "@tiptap/react";
 import { MeetingTranscriptChat, SelectionBar } from "./MeetingTranscriptChat";
+import { MeetingScreenshots } from "./MeetingScreenshots";
 import {
   useMeetingRecordingStore,
   type TranscriptSegment,
@@ -1362,6 +1363,9 @@ export default function NoteEditor({
           </div>
         )}
 
+        {viewMode === "transcript" && !isRecording && (
+          <MeetingScreenshots noteId={note.id} className={PAGE_CONTENT_WIDTH_CLASS} />
+        )}
         <div className="flex-1 relative min-h-0">
           <div ref={contentScrollRef} className="h-full overflow-y-auto">
             {viewMode === "transcript" && (hasChatSegments || isRecording) ? (

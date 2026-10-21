@@ -138,6 +138,7 @@ const LocalModelDownloadStatus = require("./localModelDownloadStatus");
 const AgentStreamRequestRegistry = require("./agentStreamRequestRegistry");
 const createMeetingTranscriptionLifecycle = require("./meetingTranscriptionLifecycle");
 const ScreenKeyframeManager = require("./screenKeyframeManager");
+const MeetingFinishedHookRunner = require("./meetingFinishedHookRunner");
 const liveSpeakerIdentifier = require("./liveSpeakerIdentifier");
 const { supportsLiveSpeakerIdentification } = require("./liveSpeakerIdPolicy");
 const MeetingEchoLeakDetector = require("./meetingEchoLeakDetector");
@@ -2273,6 +2274,11 @@ class IPCHandlers {
     ipcMain.handle("db-get-note", async (event, id) => {
       return this.databaseManager.getNote(id);
     });
+
+    new MeetingFinishedHookRunner({
+      databaseManager: this.databaseManager,
+      screenKeyframes,
+    }).registerIpc(ipcMain, shell);
 
     ipcMain.handle("db-get-notes", async (event, noteType, limit, folderId, spaceId) => {
       return this.databaseManager.getNotes(noteType, limit, folderId, spaceId);

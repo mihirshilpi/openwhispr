@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "Identifica ed etichetta i partecipanti",
         "description": "Se disattivato, le trascrizioni mostrano \"Tu\" e \"Altri\""
+      },
+      "screenKeyframes": {
+        "title": "Screenshot durante le riunioni",
+        "description": "Salva uno screenshot della finestra di Teams, o del tuo schermo mentre presenti, ogni volta che cambia. Richiede il permesso Registrazione schermo."
+      },
+      "finishedHook": {
+        "title": "Quando finisce una riunione",
+        "description": "Scrive meeting.json e meeting.md (trascrizione, partecipanti, orari e screenshot) nella cartella della riunione, poi li invia ai tuoi strumenti. Lascia entrambi vuoti per disattivare.",
+        "urlLabel": "Invia a un URL locale",
+        "urlDescription": "Invia meeting.json a questo indirizzo.",
+        "commandLabel": "Esegui un comando",
+        "commandDescription": "Viene eseguito nella tua shell di login. $OPENWHISPR_MEETING_JSON, $OPENWHISPR_MEETING_MD e $OPENWHISPR_MEETING_DIR puntano all'esportazione."
       }
     }
   },
@@ -3471,6 +3483,20 @@
       "applied": "L’assistente ha aggiornato «{{title}}»",
       "changed": "Questa nota è cambiata dopo la modifica dell’assistente. Non è più possibile annullarla.",
       "failed": "Impossibile annullare la modifica. Riprova."
+    },
+    "screenshots": {
+      "title": "Screenshot ({{count}})",
+      "viewerTitle": "Screenshot a {{time}} ({{index}} di {{count}})",
+      "alt": "Schermo a {{time}}",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "openFolder": "Apri cartella",
+      "send": {
+        "idle": "Invia all'agente",
+        "sending": "Invio…",
+        "sent": "Inviato",
+        "failed": "Invio non riuscito"
+      }
     }
   },
   "dictionary": {

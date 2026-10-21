@@ -411,6 +411,13 @@ export interface Leaderboard {
   refreshAfterSeconds: number;
 }
 
+export interface MeetingFrame {
+  offsetMs: number;
+  file: string;
+  source?: string;
+  reason?: string;
+}
+
 export interface NoteItem {
   id: number;
   title: string;
@@ -3298,6 +3305,24 @@ declare global {
         } & PolicyFailureMetadata
       >;
       meetingTranscriptionSend?: (buffer: ArrayBuffer, source: "mic" | "system") => void;
+      runMeetingFinishedHook?: (request: {
+        noteId: number;
+        sessionId: string | null;
+        url: string;
+        command: string;
+      }) => Promise<{ scheduled: boolean }>;
+      runMeetingFinishedHookNow?: (request: {
+        noteId: number;
+        url: string;
+        command: string;
+      }) => Promise<{ success: boolean }>;
+      listMeetingFrames?: (noteId: number) => Promise<{
+        dir: string | null;
+        startEpochMs?: number | null;
+        frames: MeetingFrame[];
+      }>;
+      readMeetingFrame?: (noteId: number, file: string) => Promise<string | null>;
+      openMeetingFramesFolder?: (noteId: number) => Promise<{ success: boolean }>;
       meetingTranscriptionSetSystemAudioAvailable?: (
         sessionId: string,
         available: boolean

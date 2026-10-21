@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "Identificar y etiquetar participantes",
         "description": "Cuando está desactivado, las transcripciones muestran \"Tú\" y \"Otros\""
+      },
+      "screenKeyframes": {
+        "title": "Capturas durante las reuniones",
+        "description": "Guarda una captura de la ventana de Teams, o de tu pantalla mientras presentas, cada vez que cambia. Requiere el permiso de Grabación de pantalla."
+      },
+      "finishedHook": {
+        "title": "Cuando termina una reunión",
+        "description": "Escribe meeting.json y meeting.md (transcripción, participantes, tiempos y capturas) en la carpeta de la reunión y luego los envía a tus propias herramientas. Deja ambos vacíos para desactivarlo.",
+        "urlLabel": "Enviar a una URL local",
+        "urlDescription": "Envía meeting.json a esta dirección.",
+        "commandLabel": "Ejecutar un comando",
+        "commandDescription": "Se ejecuta en tu shell de inicio de sesión. $OPENWHISPR_MEETING_JSON, $OPENWHISPR_MEETING_MD y $OPENWHISPR_MEETING_DIR apuntan a la exportación."
       }
     }
   },
@@ -3523,6 +3535,20 @@
       "applied": "El asistente actualizó «{{title}}»",
       "changed": "Esta nota cambió después de la edición del asistente. Ya no se puede deshacer.",
       "failed": "No se pudo deshacer la edición. Inténtalo de nuevo."
+    },
+    "screenshots": {
+      "title": "Capturas ({{count}})",
+      "viewerTitle": "Captura a las {{time}} ({{index}} de {{count}})",
+      "alt": "Pantalla a las {{time}}",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "openFolder": "Abrir carpeta",
+      "send": {
+        "idle": "Enviar al agente",
+        "sending": "Enviando…",
+        "sent": "Enviado",
+        "failed": "No se pudo enviar"
+      }
     }
   },
   "dictionary": {
