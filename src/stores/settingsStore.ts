@@ -301,6 +301,7 @@ const BOOLEAN_SETTINGS = new Set([
   "noteRecordingSileroEnabled",
   "meetingSileroEnabled",
   "meetingAecEnabled",
+  "meetingScreenKeyframesEnabled",
   "isSignedIn",
   "autoPasteEnabled",
   "keepTranscriptionInClipboard",
@@ -929,6 +930,7 @@ export interface SettingsState
   noteRecordingSileroEnabled: boolean;
   meetingSileroEnabled: boolean;
   meetingAecEnabled: boolean;
+  meetingScreenKeyframesEnabled: boolean;
   whisperVadThreshold: number;
   whisperVadMinSpeechDurationMs: number;
   whisperVadMinSilenceDurationMs: number;
@@ -1257,6 +1259,7 @@ export interface SettingsState
   setNoteRecordingSileroEnabled: (value: boolean) => void;
   setMeetingSileroEnabled: (value: boolean) => void;
   setMeetingAecEnabled: (value: boolean) => void;
+  setMeetingScreenKeyframesEnabled: (value: boolean) => void;
   setWhisperVadThreshold: (value: number) => void;
   setWhisperVadMinSpeechDurationMs: (value: number) => void;
   setWhisperVadMinSilenceDurationMs: (value: number) => void;
@@ -1702,9 +1705,13 @@ export const useSettingsStore = create<SettingsState>()((set, get) => ({
   dictationSileroEnabled: readBoolean("dictationSileroEnabled", false),
   noteRecordingSileroEnabled: readBoolean("noteRecordingSileroEnabled", true),
   meetingSileroEnabled: readBoolean("meetingSileroEnabled", true),
-  // Acoustic echo cancellation for meetings is opt-in: on headsets there's no
-  // echo to cancel and it can suppress the mic entirely. See ipcHandlers AEC gate.
-  meetingAecEnabled: readBoolean("meetingAecEnabled", false),
+  // Acoustic echo cancellation for meetings. Upstream keeps it opt-in because on
+  // headsets there's no echo to cancel and it can suppress the mic; this fork
+  // defaults it on for calls taken on the laptop speakers. See ipcHandlers AEC gate.
+  meetingAecEnabled: readBoolean("meetingAecEnabled", true),
+  // Saves a screenshot of the meeting whenever the Teams window or the shared
+  // screen changes (macOS helper `macos-screen-keyframes`).
+  meetingScreenKeyframesEnabled: readBoolean("meetingScreenKeyframesEnabled", true),
   whisperVadThreshold: clampVadValue("threshold", readString("whisperVadThreshold", "0.5")),
   whisperVadMinSpeechDurationMs: clampVadValue(
     "minSpeechDurationMs",
@@ -2527,6 +2534,7 @@ export const useSettingsStore = create<SettingsState>()((set, get) => ({
     }
   },
   setMeetingAecEnabled: createBooleanSetter("meetingAecEnabled"),
+  setMeetingScreenKeyframesEnabled: createBooleanSetter("meetingScreenKeyframesEnabled"),
   setWhisperVadThreshold: (value: number) => {
     const next = clampVadValue("threshold", value);
     if (isBrowser) localStorage.setItem("whisperVadThreshold", String(next));
