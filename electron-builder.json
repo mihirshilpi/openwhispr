@@ -116,6 +116,7 @@
         "yt-dlp-*",
         "qdrant-*",
         "macos-audio-tap",
+        "macos-screen-keyframes",
         "macos-globe-listener",
         "macos-fast-paste",
         "macos-mic-listener",

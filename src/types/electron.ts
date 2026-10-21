@@ -3284,6 +3284,7 @@ declare global {
         sessionId: string;
         autoEndEligible: boolean;
         aecEnabled?: boolean;
+        screenKeyframes?: boolean;
         speakerIndexBase?: number;
       }) => Promise<
         {

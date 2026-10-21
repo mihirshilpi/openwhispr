@@ -137,6 +137,7 @@ const AudioStorageManager = require("./audioStorage");
 const LocalModelDownloadStatus = require("./localModelDownloadStatus");
 const AgentStreamRequestRegistry = require("./agentStreamRequestRegistry");
 const createMeetingTranscriptionLifecycle = require("./meetingTranscriptionLifecycle");
+const ScreenKeyframeManager = require("./screenKeyframeManager");
 const liveSpeakerIdentifier = require("./liveSpeakerIdentifier");
 const { supportsLiveSpeakerIdentification } = require("./liveSpeakerIdPolicy");
 const MeetingEchoLeakDetector = require("./meetingEchoLeakDetector");
@@ -310,6 +311,9 @@ const {
 } = require("./speakerMerge");
 const { timestampRequestFields, mapVerboseSegments } = require("./uploadTimestamps");
 const { listLocalTranscriptionModels } = require("./localTranscriptionModels");
+
+// One meeting records at a time, so one keyframe recorder serves every session.
+const screenKeyframes = new ScreenKeyframeManager();
 
 // Canonicalize allowed dirs so realpath'd inputs match on macOS (/var -> /private/var).
 // Deliberately narrow: user-picked paths anywhere else are approved individually via
@@ -9743,9 +9747,28 @@ class IPCHandlers {
     };
 
     const meetingTranscriptionLifecycle = createMeetingTranscriptionLifecycle({
-      start: ({ sessionId, ownerWebContents, options }) =>
-        startMeetingTranscription({ sender: ownerWebContents }, { ...options, sessionId }),
-      stop: (sessionId) => stopMeetingTranscription(sessionId),
+      start: async ({ sessionId, ownerWebContents, options }) => {
+        const result = await startMeetingTranscription(
+          { sender: ownerWebContents },
+          { ...options, sessionId }
+        );
+        if (result?.success && options.screenKeyframes === true) {
+          try {
+            screenKeyframes.start({ sessionId, noteId: options.noteId ?? null });
+          } catch (error) {
+            debugLogger.warn(
+              "Screen keyframes failed to start",
+              { error: error.message, sessionId },
+              "meeting"
+            );
+          }
+        }
+        return result;
+      },
+      stop: async (sessionId) => {
+        await screenKeyframes.stop(sessionId).catch(() => {});
+        return stopMeetingTranscription(sessionId);
+      },
       onError: (error, sessionId) => {
         debugLogger.error(
           "Meeting transcription owner-loss teardown failed",

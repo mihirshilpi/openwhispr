@@ -975,6 +975,7 @@ export async function startRecording(args: StartRecordingArgs): Promise<boolean>
         sessionId,
         autoEndEligible: args.autoEndEligible,
         aecEnabled: getSettings().meetingAecEnabled,
+        screenKeyframes: getSettings().meetingScreenKeyframesEnabled,
         speakerIndexBase: sessionSpeakerIndexBase,
       });
       const micCapturePromise = getMeetingMicConstraints().then(async (constraints) => {
