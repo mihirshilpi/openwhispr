@@ -41,7 +41,8 @@ let thumbHeight = 36
 let pixelDeltaThreshold = 24
 
 @available(macOS 14.0, *)
-final class KeyframeRecorder {
+// State is only touched on `queue`, so the Task hop in tick() is safe.
+final class KeyframeRecorder: @unchecked Sendable {
     private let config: Config
     private let queue = DispatchQueue(label: "com.openwhispr.screen-keyframes")
     private var timer: DispatchSourceTimer?
@@ -54,6 +55,9 @@ final class KeyframeRecorder {
     private var candidateThumb: [UInt8]?
     private var candidateSince: Double = 0
     private var forceNext = false
+    // Last error code sent to the host; a failure repeats every tick, so it is
+    // reported once and again only after a capture succeeds or the code changes.
+    private var lastErrorCode: String?
 
     init(config: Config) {
         self.config = config
@@ -97,13 +101,17 @@ final class KeyframeRecorder {
             defer { queue.async { self.busy = false } }
             do {
                 guard let (image, source) = try await captureCurrentTarget() else { return }
-                queue.sync { self.consider(image: image, source: source) }
+                queue.sync {
+                    self.lastErrorCode = nil
+                    self.consider(image: image, source: source)
+                }
             } catch {
-                emit(event: [
-                    "type": "error",
-                    "code": isPermissionError(error) ? "permission_denied" : "capture_failed",
-                    "message": error.localizedDescription,
-                ])
+                let code = isPermissionError(error) ? "permission_denied" : "capture_failed"
+                queue.sync {
+                    guard self.lastErrorCode != code else { return }
+                    self.lastErrorCode = code
+                    emit(event: ["type": "error", "code": code, "message": error.localizedDescription])
+                }
             }
         }
     }
