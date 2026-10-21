@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "Sprecher erkennen und beschriften",
         "description": "Wenn deaktiviert, zeigen Transkripte „Du“ und „Andere“"
+      },
+      "screenKeyframes": {
+        "title": "Screenshots in Meetings",
+        "description": "Speichert bei jeder Änderung einen Screenshot des Teams-Fensters oder, während du präsentierst, deines Bildschirms. Benötigt die Berechtigung Bildschirmaufnahme."
+      },
+      "finishedHook": {
+        "title": "Wenn ein Meeting endet",
+        "description": "Schreibt meeting.json und meeting.md (Transkript, Sprecher, Zeiten und Screenshots) in den Ordner des Meetings und sendet sie an deine eigenen Tools. Lass beide Felder leer, um das auszuschalten.",
+        "urlLabel": "An eine lokale URL senden",
+        "urlDescription": "Sendet meeting.json per POST an diese Adresse.",
+        "commandLabel": "Befehl ausführen",
+        "commandDescription": "Läuft in deiner Login-Shell. $OPENWHISPR_MEETING_JSON, $OPENWHISPR_MEETING_MD und $OPENWHISPR_MEETING_DIR zeigen auf den Export."
       }
     }
   },
@@ -3822,6 +3834,20 @@
       "applied": "Der Assistent hat „{{title}}“ aktualisiert",
       "changed": "Diese Notiz wurde nach der Änderung des Assistenten erneut geändert. Rückgängig ist nicht mehr verfügbar.",
       "failed": "Die Änderung konnte nicht rückgängig gemacht werden. Bitte versuche es erneut."
+    },
+    "screenshots": {
+      "title": "Screenshots ({{count}})",
+      "viewerTitle": "Screenshot bei {{time}} ({{index}} von {{count}})",
+      "alt": "Bildschirm bei {{time}}",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "openFolder": "Ordner öffnen",
+      "send": {
+        "idle": "An Agent senden",
+        "sending": "Wird gesendet…",
+        "sent": "Gesendet",
+        "failed": "Senden fehlgeschlagen"
+      }
     }
   },
   "dictionary": {

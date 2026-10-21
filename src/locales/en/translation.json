@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "Identify and label speakers",
         "description": "When off, transcripts show \"You\" and \"Others\""
+      },
+      "screenKeyframes": {
+        "title": "Screenshots during meetings",
+        "description": "Saves a screenshot of the Teams window, or of your screen while you present, whenever it changes. Needs Screen Recording permission."
+      },
+      "finishedHook": {
+        "title": "When a meeting finishes",
+        "description": "Writes meeting.json and meeting.md (transcript, speakers, times and screenshots) into the meeting's folder, then sends them to your own tools. Leave both empty to turn this off.",
+        "urlLabel": "Send to a local URL",
+        "urlDescription": "Posts meeting.json to this address.",
+        "commandLabel": "Run a command",
+        "commandDescription": "Runs in your login shell. $OPENWHISPR_MEETING_JSON, $OPENWHISPR_MEETING_MD and $OPENWHISPR_MEETING_DIR point at the export."
       }
     }
   },
@@ -3822,6 +3834,20 @@
       "applied": "Assistant updated “{{title}}”",
       "changed": "This note changed after the assistant edit. Undo is no longer available.",
       "failed": "Could not undo the edit. Please try again."
+    },
+    "screenshots": {
+      "title": "Screenshots ({{count}})",
+      "viewerTitle": "Screenshot at {{time}} ({{index}} of {{count}})",
+      "alt": "Screen at {{time}}",
+      "previous": "Previous",
+      "next": "Next",
+      "openFolder": "Open folder",
+      "send": {
+        "idle": "Send to agent",
+        "sending": "Sending…",
+        "sent": "Sent",
+        "failed": "Couldn't send"
+      }
     }
   },
   "dictionary": {

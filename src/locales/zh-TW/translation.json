@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "辨識並標記發言者",
         "description": "關閉後，逐字稿會顯示「你」和「其他人」"
+      },
+      "screenKeyframes": {
+        "title": "會議截圖",
+        "description": "每當 Teams 視窗（或你簡報時的螢幕）變化時儲存一張截圖。需要「螢幕錄製」權限。"
+      },
+      "finishedHook": {
+        "title": "會議結束時",
+        "description": "將 meeting.json 和 meeting.md（逐字稿、發言者、時間和截圖）寫入會議資料夾，然後傳送給你自己的工具。兩項都留空即可關閉。",
+        "urlLabel": "傳送到本機 URL",
+        "urlDescription": "將 meeting.json POST 到此位址。",
+        "commandLabel": "執行指令",
+        "commandDescription": "在你的登入 shell 中執行。$OPENWHISPR_MEETING_JSON、$OPENWHISPR_MEETING_MD 和 $OPENWHISPR_MEETING_DIR 指向匯出內容。"
       }
     }
   },
@@ -3471,6 +3483,20 @@
       "applied": "助理已更新「{{title}}」",
       "changed": "助理編輯後，這篇筆記又有變更，無法復原。",
       "failed": "無法復原編輯，請再試一次。"
+    },
+    "screenshots": {
+      "title": "截圖（{{count}}）",
+      "viewerTitle": "{{time}} 的截圖（第 {{index}} 張，共 {{count}} 張）",
+      "alt": "{{time}} 的螢幕",
+      "previous": "上一張",
+      "next": "下一張",
+      "openFolder": "開啟資料夾",
+      "send": {
+        "idle": "傳送給代理",
+        "sending": "傳送中…",
+        "sent": "已傳送",
+        "failed": "傳送失敗"
+      }
     }
   },
   "dictionary": {

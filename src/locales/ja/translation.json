@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "話者を識別してラベル付け",
         "description": "オフにすると、文字起こしには「あなた」と「他の人」と表示されます"
+      },
+      "screenKeyframes": {
+        "title": "会議中のスクリーンショット",
+        "description": "Teams のウィンドウ（発表中はあなたの画面）が変わるたびにスクリーンショットを保存します。「画面収録」の許可が必要です。"
+      },
+      "finishedHook": {
+        "title": "会議が終わったら",
+        "description": "meeting.json と meeting.md（文字起こし、話者、時刻、スクリーンショット）を会議のフォルダに書き出し、あなたのツールに送ります。両方を空にするとオフになります。",
+        "urlLabel": "ローカル URL に送信",
+        "urlDescription": "meeting.json をこのアドレスに POST します。",
+        "commandLabel": "コマンドを実行",
+        "commandDescription": "ログインシェルで実行されます。$OPENWHISPR_MEETING_JSON、$OPENWHISPR_MEETING_MD、$OPENWHISPR_MEETING_DIR がエクスポートを指します。"
       }
     }
   },
@@ -3399,6 +3411,20 @@
       "applied": "アシスタントが「{{title}}」を更新しました",
       "changed": "アシスタントの編集後にノートが変更されたため、元に戻せません。",
       "failed": "編集を元に戻せませんでした。もう一度お試しください。"
+    },
+    "screenshots": {
+      "title": "スクリーンショット（{{count}}）",
+      "viewerTitle": "{{time}} のスクリーンショット（{{count}} 枚中 {{index}} 枚目）",
+      "alt": "{{time}} の画面",
+      "previous": "前へ",
+      "next": "次へ",
+      "openFolder": "フォルダを開く",
+      "send": {
+        "idle": "エージェントに送信",
+        "sending": "送信中…",
+        "sent": "送信しました",
+        "failed": "送信できませんでした"
+      }
     }
   },
   "dictionary": {

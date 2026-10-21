@@ -1797,6 +1797,25 @@ export function cancelPreparedTranscription(): void {
   window.electronAPI?.meetingTranscriptionCancel?.();
 }
 
+// Hands a finished meeting to the user's own tools (Settings → Meetings →
+// When a meeting finishes). Main waits a few seconds before reading the note,
+// so the stop path's final transcript write lands first, and runs each
+// session once.
+function fireMeetingFinishedHook(noteId: number, sessionId: string | null) {
+  const { meetingFinishedWebhookUrl, meetingFinishedCommand } = getSettings();
+  if (!meetingFinishedWebhookUrl.trim() && !meetingFinishedCommand.trim()) return;
+  window.electronAPI
+    ?.runMeetingFinishedHook?.({
+      noteId,
+      sessionId,
+      url: meetingFinishedWebhookUrl,
+      command: meetingFinishedCommand,
+    })
+    .catch((error: Error) => {
+      logger.warn("Meeting finished hook failed", { noteId, error: error.message }, "meeting");
+    });
+}
+
 // Persists delayed diarization results to the note that owns the recording
 // session (#1495). Registered once at module load so results survive the
 // notes view unmounting; NoteEditor only mirrors `completedDiarization`.
@@ -1821,7 +1840,7 @@ if (typeof window !== "undefined") {
       });
       if (targetNoteId == null) {
         if (data?.sessionId) seedLengthByDiarizationSession.delete(data.sessionId);
-        return;
+        return null;
       }
 
       // Publishing an empty result clears a waiting editor's spinner without
@@ -1837,7 +1856,7 @@ if (typeof window !== "undefined") {
       if (!data?.segments?.length) {
         if (data?.sessionId) seedLengthByDiarizationSession.delete(data.sessionId);
         publish([]);
-        return;
+        return targetNoteId;
       }
 
       let persisted: NoteItem | null | undefined;
@@ -1861,7 +1880,7 @@ if (typeof window !== "undefined") {
       // index.
       if (!persisted || persisted.deleted_at) {
         publish([]);
-        return;
+        return null;
       }
 
       const existing = selectBaseSegments({
@@ -1904,13 +1923,18 @@ if (typeof window !== "undefined") {
       if (data.speakerEmbeddings) {
         await window.electronAPI?.saveNoteSpeakerEmbeddings?.(targetNoteId, data.speakerEmbeddings);
       }
-    }).catch((error) => {
-      logger.error(
-        "Diarization completion handling failed",
-        { error: (error as Error).message },
-        "meeting"
-      );
-    });
+      return targetNoteId;
+    })
+      .then((noteId) => {
+        if (noteId != null) fireMeetingFinishedHook(noteId, data?.sessionId ?? null);
+      })
+      .catch((error) => {
+        logger.error(
+          "Diarization completion handling failed",
+          { error: (error as Error).message },
+          "meeting"
+        );
+      });
   });
 }
 

@@ -54,6 +54,18 @@
       "speakerDetection": {
         "title": "Identifier et étiqueter les intervenants",
         "description": "Lorsque désactivé, les transcriptions affichent « Vous » et « Autres »"
+      },
+      "screenKeyframes": {
+        "title": "Captures d'écran pendant les réunions",
+        "description": "Enregistre une capture de la fenêtre Teams, ou de votre écran pendant que vous présentez, à chaque changement. Nécessite l'autorisation Enregistrement de l'écran."
+      },
+      "finishedHook": {
+        "title": "À la fin d'une réunion",
+        "description": "Écrit meeting.json et meeting.md (transcription, intervenants, horodatages et captures) dans le dossier de la réunion, puis les envoie à vos propres outils. Laissez les deux champs vides pour désactiver.",
+        "urlLabel": "Envoyer à une URL locale",
+        "urlDescription": "Envoie meeting.json à cette adresse.",
+        "commandLabel": "Exécuter une commande",
+        "commandDescription": "S'exécute dans votre shell de connexion. $OPENWHISPR_MEETING_JSON, $OPENWHISPR_MEETING_MD et $OPENWHISPR_MEETING_DIR pointent vers l'export."
       }
     }
   },
@@ -3822,6 +3834,20 @@
       "applied": "L’assistant a modifié « {{title}} »",
       "changed": "Cette note a changé après la modification de l’assistant. Il n’est plus possible de l’annuler.",
       "failed": "Impossible d’annuler la modification. Réessayez."
+    },
+    "screenshots": {
+      "title": "Captures d'écran ({{count}})",
+      "viewerTitle": "Capture à {{time}} ({{index}} sur {{count}})",
+      "alt": "Écran à {{time}}",
+      "previous": "Précédente",
+      "next": "Suivante",
+      "openFolder": "Ouvrir le dossier",
+      "send": {
+        "idle": "Envoyer à l'agent",
+        "sending": "Envoi…",
+        "sent": "Envoyé",
+        "failed": "Échec de l'envoi"
+      }
     }
   },
   "dictionary": {
